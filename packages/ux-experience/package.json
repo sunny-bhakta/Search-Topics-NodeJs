@@ -1,0 +1,14 @@
+{
+  "name": "@search/ux-experience",
+  "version": "0.1.0",
+  "description": "Presentation helpers for search UX (autocomplete, formatting)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest --runTestsByPath packages/ux-experience/src/index.test.ts"
+  },
+  "dependencies": {
+    "@search/core-engine": "workspace:*"
+  }
+}

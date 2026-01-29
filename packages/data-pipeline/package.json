@@ -1,0 +1,14 @@
+{
+  "name": "@search/data-pipeline",
+  "version": "0.1.0",
+  "description": "Catalog ingestion helpers and in-memory topic repository",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest --runTestsByPath packages/data-pipeline/src/index.test.ts"
+  },
+  "dependencies": {
+    "@search/core-engine": "workspace:*"
+  }
+}

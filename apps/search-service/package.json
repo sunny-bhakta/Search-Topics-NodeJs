@@ -1,0 +1,19 @@
+{
+  "name": "@search/search-service",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Express service exposing search and autocomplete endpoints",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@search/api-gateway": "workspace:*",
+    "@search/core-engine": "workspace:*",
+    "@search/data-pipeline": "workspace:*",
+    "@search/ux-experience": "workspace:*"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core-engine" },
+    { "path": "./packages/data-pipeline" },
+    { "path": "./packages/ux-experience" },
+    { "path": "./packages/api-gateway" },
+    { "path": "./apps/search-cli" },
+    { "path": "./apps/search-service" }
+  ]
+}

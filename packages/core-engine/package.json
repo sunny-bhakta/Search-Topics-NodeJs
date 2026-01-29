@@ -1,0 +1,12 @@
+{
+  "name": "@search/core-engine",
+  "version": "0.1.0",
+  "description": "Core search algorithms, data structures, and helpers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest",
+    "lint": "eslint 'src/**/*.ts'"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@search/api-gateway",
+  "version": "0.1.0",
+  "description": "Thin composition layer converting HTTP-ish requests into search calls",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest --runTestsByPath packages/api-gateway/src/index.test.ts"
+  },
+  "dependencies": {
+    "@search/core-engine": "workspace:*",
+    "@search/data-pipeline": "workspace:*",
+    "@search/ux-experience": "workspace:*"
+  }
+}

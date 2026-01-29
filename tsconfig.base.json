@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": ["node", "jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@search/core-engine": ["packages/core-engine/src"],
+      "@search/data-pipeline": ["packages/data-pipeline/src"],
+      "@search/ux-experience": ["packages/ux-experience/src"],
+      "@search/api-gateway": ["packages/api-gateway/src"]
+    }
+  }
+}
