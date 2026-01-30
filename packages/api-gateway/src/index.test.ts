@@ -16,7 +16,9 @@ describe('api-gateway controller', () => {
 
     const payload = await handlers.searchHandler('react');
 
-    expect(payload.total).toBe(1);
+    expect(payload.total).toBeGreaterThan(0);
     expect(payload.items[0]).toMatchObject({ title: 'React Search' });
+    expect(payload.facets.category?.length).toBeGreaterThan(0);
+    expect(Array.isArray(payload.expansions)).toBe(true);
   });
 });

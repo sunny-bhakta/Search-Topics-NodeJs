@@ -1,6 +1,6 @@
 # Repository Layout Strategy for Search Features
 
-Use this blueprint to keep multiple search-related topics in a single repository while isolating concerns and enabling future composition.
+Use this blueprint to keep multiple search-related catalog capabilities in a single repository while isolating concerns and enabling future composition.
 
 ## 1. High-Level Layout
 
@@ -22,9 +22,9 @@ Use this blueprint to keep multiple search-related topics in a single repository
 - Share lint/test configs via the root `tooling/` folder or workspace-level config.
 - Use npm workspaces or pnpm to manage cross-package dependencies and keep hoisting predictable.
 
-## 2. Per-Topic Folder Guidance
+## 2. Per-Catalog Domain Guidance
 
-| Topic | Folder | Purpose | Notes |
+| Catalog Domain | Folder | Purpose | Notes |
 | ----- | ------ | ------- | ----- |
 | Search Algorithm & Ranking | `packages/core-engine` | Retrieval models, scoring functions, vector support | Export pure TypeScript modules for reuse in CLI/service. |
 | Data/Indexing | `packages/data-pipeline` | Catalog ingestion, enrichment, index writers | Include infra-as-code snippets or docker compose for local ES/OpenSearch. |
@@ -38,7 +38,7 @@ Use this blueprint to keep multiple search-related topics in a single repository
 2. **Use workspace-level TypeScript project references** so each package emits types that others can import without rebuilding the world.
 3. **Create integration tests** inside `apps/search-service/tests` that spin up the engine + data pipeline via dependency injection. Run these in CI after package unit tests pass.
 4. **Expose a composition layer**: `packages/api-gateway/src/bootstrap.ts` should take dependency objects `{ engine, dataPipeline, experience }`, allowing you to plug mocks during tests or swap implementations.
-5. **Publish artifacts** (npm, internal registry, or dist tarballs) when a topic package reaches maturity; the combined app can then depend on specific versions.
+5. **Publish artifacts** (npm, internal registry, or dist tarballs) when a catalog package reaches maturity; the combined app can then depend on specific versions.
 
 ## 4. Workflow Tips
 
@@ -47,4 +47,4 @@ Use this blueprint to keep multiple search-related topics in a single repository
 - Automate quality gates per package (lint, unit test) plus an end-to-end suite that targets the combined application.
 - Document integration recipes in `docs/` and link them from package READMEs for discoverability.
 
-Adopting this structure lets you ideate per-topic in isolation today while keeping a clear path to merge them into a production-ready search service tomorrow.
+Adopting this structure lets you ideate per-catalog feature in isolation today while keeping a clear path to merge them into a production-ready search service tomorrow.

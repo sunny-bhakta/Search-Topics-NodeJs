@@ -1,35 +1,74 @@
-import { searchTopics, sampleTopics, Topic } from './index';
+import { Catalog, RankedCatalog, searchCatalogs, searchCatalogsAdvanced } from './index';
 
-describe('searchTopics', () => {
-  const data: Topic[] = [
-    { id: 1, name: 'Node Basics', description: 'Learn Node.js runtime', tags: ['node'] },
-    {
+const buildCatalog = (overrides: Partial<Catalog>): Catalog => ({
+  id: 0,
+  name: 'Placeholder',
+  description: 'Placeholder',
+  tags: [],
+  ...overrides
+});
+
+describe('searchCatalogs advanced ranking', () => {
+  const catalogs: Catalog[] = [
+    buildCatalog({
+      id: 1,
+      name: 'Node Streams',
+      description: 'Process streaming data',
+      tags: ['nodejs', 'streams'],
+      category: 'runtime',
+      metrics: { popularity: 0.7, inventoryHealth: 0.9, margin: 0.4, freshnessDays: 3 },
+      vector: [0.8, 0.7, 0.6]
+  }),
+  buildCatalog({
       id: 2,
-      name: 'Advanced TypeScript',
-      description: 'Deep dive into generics',
-      tags: ['typescript', 'generics']
-    }
+      name: 'TypeScript Generics',
+      description: 'Deep dive into advanced types',
+      tags: ['typescript', 'generics'],
+      category: 'language',
+      metrics: { popularity: 0.9, inventoryHealth: 0.6, margin: 0.5, freshnessDays: 15 },
+      vector: [0.9, 0.6, 0.4]
+  }),
+  buildCatalog({
+      id: 3,
+      name: 'Fresh Drop',
+      description: 'Newly released content',
+      tags: ['release'],
+      category: 'announcements',
+      metrics: { popularity: 0.4, inventoryHealth: 0.5, margin: 0.9, freshnessDays: 1 },
+      vector: [0.5, 0.5, 0.5]
+    })
   ];
 
-  it('returns all topics when query is empty', () => {
-    expect(searchTopics('', data)).toHaveLength(2);
+  it('expands queries with synonyms and fuzzy matching', () => {
+    const results = searchCatalogs('streems', catalogs);
+    expect(results[0].id).toBe(1);
+
+    const advanced = searchCatalogsAdvanced('js', catalogs);
+    expect(advanced.results[0].catalog.tags).toContain('nodejs');
   });
 
-  it('matches on name, description, and tags', () => {
-    expect(searchTopics('node', data)).toEqual([data[0]]);
-    expect(searchTopics('generics', data)).toEqual([data[1]]);
+  it('applies boosters to elevate high-margin fresh items', () => {
+    const ranked = searchCatalogsAdvanced('fresh', catalogs).results;
+    const freshDrop = ranked.find((entry) => entry.catalog.id === 3) as RankedCatalog;
+    expect(freshDrop.breakdown.booster).toBeGreaterThan(0.5);
   });
 
-  it('is case insensitive by default and trims whitespace', () => {
-    expect(searchTopics('  NODE  ', data)).toEqual([data[0]]);
+  it('returns facets honoring pinned values', () => {
+    const response = searchCatalogsAdvanced('type', catalogs, {
+      faceting: [{ field: 'category', pinnedValues: ['language'] }]
+    });
+    expect(response.facets.category?.[0]).toMatchObject({ value: 'language', pinned: true });
   });
 
-  it('respects caseSensitive option', () => {
-    expect(searchTopics('node', data, { caseSensitive: true })).toHaveLength(0);
-    expect(searchTopics('Node', data, { caseSensitive: true })).toEqual([data[0]]);
+  it('supports custom weighting for semantic emphasis', () => {
+    const semanticHeavy = searchCatalogsAdvanced('stream', catalogs, {
+      lexicalWeight: 0.1,
+      semanticWeight: 0.8
+    });
+    expect(semanticHeavy.results[0].catalog.id).toBe(1);
   });
 
-  it('falls back to sampleTopics when dataset not provided', () => {
-    expect(searchTopics('jest')).toEqual([sampleTopics[2]]);
+  it('falls back to all catalogs when query empty', () => {
+    expect(searchCatalogs('')).toHaveLength(3);
   });
 });

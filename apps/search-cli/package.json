@@ -14,9 +14,9 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@search/api-gateway": "workspace:*",
-    "@search/core-engine": "workspace:*",
-    "@search/data-pipeline": "workspace:*",
-    "@search/ux-experience": "workspace:*"
+  "@search/api-gateway": "file:../../packages/api-gateway",
+  "@search/core-engine": "file:../../packages/core-engine",
+  "@search/data-pipeline": "file:../../packages/data-pipeline",
+  "@search/ux-experience": "file:../../packages/ux-experience"
   }
 }

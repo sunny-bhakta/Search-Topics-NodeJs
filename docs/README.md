@@ -2,17 +2,41 @@
 
 Use this checklist to guide an enterprise-grade search experience for storefronts, marketplaces, or headless commerce stacks.
 
+
 ## 1. Data & Indexing
-- **Incremental indexing pipeline** that listens to catalog, pricing, and inventory events.
-- **Full reindex workflow** with pause/resume, validation, and rollback paths.
-- **Multi-locale and multi-currency awareness** baked into documents.
-- **Synonym, stop-word, and stemming dictionaries** with separate lifecycle management.
+
+This system provides a robust data and indexing pipeline for e-commerce search, with the following features and their implementation highlights:
+
+- **Incremental indexing pipeline:**
+	- Implemented by `CatalogEventBus` and `createIncrementalProcessor`, which listen to catalog, pricing, and inventory events and update projections in real time.
+- **Full reindex workflow with pause/resume, validation, and rollback:**
+	- `ReindexJob` and `CatalogSnapshotStore` enable safe, resumable, and rollback-capable full reindexing, iterating the latest non-deleted payloads in batches.
+- **Multi-locale and multi-currency awareness:**
+	- `DocumentBuilder` emits localized and multi-currency `IndexDocument` payloads, respecting locale overrides and currency variations.
+- **Synonym, stop-word, and stemming dictionaries:**
+	- The pluggable `SynonymDictionary` enriches tags and names, supporting synonym expansion and future stop-word/stemming logic.
+- **Persistence contract for downstream search engines:**
+	- `IndexWriter` and `InMemoryIndexWriter` define and test the begin/write/finalize/rollback lifecycle for both local and production-grade indexers.
+
+**Next steps:** Add validation hooks (schema + payload checks) before batches commit, and capture metrics for the indexing SLO dashboard.
+
 
 ## 2. Relevance & Retrieval
-- **Hybrid lexical + semantic ranking** (BM25 + vector embeddings) for high recall.
-- **Boosting rules** for margin, inventory health, freshness, and merchant priorities.
-- **Dynamic faceting** with per-category facet orders and value pinning.
-- **Query expansion & reformulation** (spell correction, pluralization, phrase intelligence).
+
+This system delivers advanced relevance and retrieval features for search, with the following capabilities and their implementation highlights:
+
+- **Hybrid lexical + semantic ranking:**
+	- `searchCatalogsAdvanced` in `core-engine` combines lexical scoring (token similarity, BM25-like) and semantic scoring (vector embeddings + cosine similarity) for high recall.
+- **Boosting rules:**
+	- Configurable boosters for margin, inventory health, freshness, and merchant priorities are applied to each catalog item.
+- **Dynamic faceting:**
+	- `buildFacets` supports per-category facet orders and value pinning, driving the CLI/HTTP responses.
+- **Query expansion & reformulation:**
+	- Synonym dictionary, Levenshtein-based fuzzy expansion, and spell correction power query expansion and reformulation without external services.
+- **API gateway and CLI/service integration:**
+	- Both surfaces return expansions and facets, enabling merchandising of zero-results pages and rich search experiences.
+
+**Next steps:** Plug in true BM25 scores from an inverted index and import learned vector embeddings (e.g., sentence-transformers) for even stronger semantic recall.
 
 ## 3. Shopper Experience
 - **Autocomplete/Typeahead** with trending, personalized, and demoted queries.
@@ -43,5 +67,3 @@ Use this checklist to guide an enterprise-grade search experience for storefront
 - **Automated regression suite** (unit + contract + synthetic browsing journeys).
 - **Blue/Green deployment strategy** for search services and rankers.
 - **Knowledge base & runbooks** covering indexing, tuning, and on-call procedures.
-
-Adopt these capabilities incrementally; track maturity per section to reach a stable, conversion-optimized search platform.
