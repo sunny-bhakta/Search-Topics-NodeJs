@@ -1,6 +1,6 @@
-# Search Topics Workspace
+# Search Catalog Workspace
 
-Monorepo that explores production search topics using Node.js + TypeScript. It ships a reusable core engine, supporting packages (data pipeline, UX helpers, API gateway), and two reference apps (CLI + HTTP service), all linted/tested through a single toolchain.
+Monorepo that explores production search catalogs using Node.js + TypeScript. It ships a reusable core engine, supporting packages (data pipeline, UX helpers, API gateway), and two reference apps (CLI + HTTP service), all linted/tested through a single toolchain.
 
 ## Prerequisites
 
@@ -54,13 +54,13 @@ apps/
   search-service/   # Node http server exposing /search + /search/autocomplete
 ```
 
-Refer to `docs/structure.md` for the full roadmap on how these pieces evolve as more topics land.
+Refer to `docs/structure.md` for the full roadmap on how these pieces evolve as more catalog features land.
 
 ## Using the Packages
 
-- `@search/core-engine`: import `searchTopics` and `Topic` to embed search anywhere.
-- `@search/data-pipeline`: bootstrap or mutate the topic repository via catalog events.
-- `@search/ux-experience`: translate raw topics into UI-ready cards and autocomplete suggestions.
+- `@search/core-engine`: import `searchCatalogs` and `Catalog` to embed search anywhere.
+- `@search/data-pipeline`: bootstrap or mutate the catalog repository via events.
+- `@search/ux-experience`: translate raw catalog items into UI-ready cards and autocomplete suggestions.
 - `@search/api-gateway`: create controllers/handlers that orchestrate everything above.
 
 Each package is typed, testable, and emits declarations so you can compose them from any app.

@@ -9,8 +9,8 @@
     "test": "jest --runTestsByPath packages/api-gateway/src/index.test.ts"
   },
   "dependencies": {
-    "@search/core-engine": "workspace:*",
-    "@search/data-pipeline": "workspace:*",
-    "@search/ux-experience": "workspace:*"
+  "@search/core-engine": "file:../core-engine",
+  "@search/data-pipeline": "file:../data-pipeline",
+  "@search/ux-experience": "file:../ux-experience"
   }
 }

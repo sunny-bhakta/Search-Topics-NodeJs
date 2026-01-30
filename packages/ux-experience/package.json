@@ -9,6 +9,6 @@
     "test": "jest --runTestsByPath packages/ux-experience/src/index.test.ts"
   },
   "dependencies": {
-    "@search/core-engine": "workspace:*"
+  "@search/core-engine": "file:../core-engine"
   }
 }

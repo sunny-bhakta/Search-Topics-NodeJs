@@ -1,4 +1,4 @@
-import { Topic } from '@search/core-engine';
+import { Catalog } from '@search/core-engine';
 
 export type SearchResultView = {
   id: number;
@@ -12,23 +12,23 @@ export type Suggestion = {
   value: number;
 };
 
-export const formatSearchResults = (topics: Topic[]): SearchResultView[] =>
-  topics.map((topic) => ({
-    id: topic.id,
-    title: topic.name,
-    snippet: topic.description,
-    tags: topic.tags
+export const formatSearchResults = (catalogs: Catalog[]): SearchResultView[] =>
+  catalogs.map((item) => ({
+    id: item.id,
+    title: item.name,
+    snippet: item.description,
+    tags: item.tags
   }));
 
-export const buildAutocompleteOptions = (query: string, topics: Topic[]): Suggestion[] => {
+export const buildAutocompleteOptions = (query: string, catalogs: Catalog[]): Suggestion[] => {
   if (!query) {
-    return topics.slice(0, 5).map((topic) => ({ label: topic.name, value: topic.id }));
+    return catalogs.slice(0, 5).map((item) => ({ label: item.name, value: item.id }));
   }
 
   const normalized = query.toLowerCase();
 
-  return topics
-    .filter((topic) => topic.name.toLowerCase().includes(normalized))
+  return catalogs
+    .filter((item) => item.name.toLowerCase().includes(normalized))
     .slice(0, 5)
-    .map((topic) => ({ label: topic.name, value: topic.id }));
+    .map((item) => ({ label: item.name, value: item.id }));
 };

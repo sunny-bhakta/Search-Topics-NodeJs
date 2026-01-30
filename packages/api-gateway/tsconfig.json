@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "dist",
+  "outDir": "../../dist/api-gateway",
+  "tsBuildInfoFile": "../../dist/api-gateway/tsconfig.tsbuildinfo",
     "composite": true,
     "declaration": true,
     "declarationMap": true

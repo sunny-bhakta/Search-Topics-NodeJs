@@ -25,14 +25,31 @@ const run = async () => {
   const payload = await handlers.searchHandler(query);
 
   if (payload.total === 0) {
-    console.log('No topics found.');
+    console.log('No catalog items found.');
   } else {
-    console.log(`Found ${payload.total} topic(s):`);
+    console.log(`Found ${payload.total} catalog item(s):`);
     payload.items.forEach((item) => {
       console.log(`\n[${item.id}] ${item.title}`);
       console.log(item.snippet);
       console.log(`Tags: ${item.tags.join(', ')}`);
     });
+
+    if (payload.expansions?.length) {
+      console.log('\nQuery expansions used:', payload.expansions.join(', '));
+    }
+
+    const facetKeys = Object.keys(payload.facets ?? {});
+    if (facetKeys.length) {
+      console.log('\nTop facets:');
+      facetKeys.forEach((facetKey) => {
+        const buckets = payload.facets[facetKey] ?? [];
+        const formatted = buckets
+          .slice(0, 5)
+          .map((bucket) => `${bucket.value} (${bucket.count})${bucket.pinned ? '*' : ''}`)
+          .join(', ');
+        console.log(`- ${facetKey}: ${formatted}`);
+      });
+    }
   }
 
   if (showSuggestions) {
