@@ -11,7 +11,9 @@
   "scripts": {
     "build": "tsc -b",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "search": "node dist/index.js",
+    "suggest": "node dist/index.js --suggest"
   },
   "dependencies": {
   "@search/api-gateway": "file:../../packages/api-gateway",

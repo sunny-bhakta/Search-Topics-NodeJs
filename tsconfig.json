@@ -6,6 +6,7 @@
     { "path": "./packages/ux-experience" },
     { "path": "./packages/api-gateway" },
     { "path": "./apps/search-cli" },
-    { "path": "./apps/search-service" }
+    { "path": "./apps/search-service" },
+    { "path": "./packages/seed-data" }
   ]
 }

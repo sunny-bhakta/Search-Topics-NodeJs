@@ -7,8 +7,12 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "references": [
-    { "path": "../core-engine" }
+    {
+      "path": "../core-engine"
+    }
   ]
 }

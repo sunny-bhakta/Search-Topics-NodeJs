@@ -2,12 +2,16 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
-  "outDir": "../../dist/core-engine",
-  "tsBuildInfoFile": "../../dist/core-engine/tsconfig.tsbuildinfo",
+    "outDir": "dist",
+
     "composite": true,
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src"],
-  "references": []
+  "include": ["src", "../seed-data/src/sampleCatalogs.ts"],
+  "references": [
+    { "path": "../seed-data" }
+  ]
 }
+
+

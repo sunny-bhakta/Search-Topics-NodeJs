@@ -14,7 +14,9 @@
       "@search/core-engine": ["packages/core-engine/src"],
       "@search/data-pipeline": ["packages/data-pipeline/src"],
       "@search/ux-experience": ["packages/ux-experience/src"],
-      "@search/api-gateway": ["packages/api-gateway/src"]
+      "@search/api-gateway": ["packages/api-gateway/src"],
+      "@search/seed-data": ["packages/seed-data/src"],
+      "@search/types": ["packages/types/src"]
     }
   }
 }

@@ -1,6 +1,4 @@
-export { sampleCatalogs, sampleProducts, sampleCategories, sampleEditorialEntries } from './seed/sampleCatalogs';
-import { sampleCatalogs } from './seed/sampleCatalogs';
-
+import { sampleCatalogs } from "@search/seed-data";
 export type CatalogMetrics = {
   popularity?: number;
   inventoryHealth?: number;
