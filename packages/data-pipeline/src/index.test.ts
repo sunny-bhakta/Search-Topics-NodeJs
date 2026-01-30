@@ -100,7 +100,7 @@ describe('CatalogEventBus + incremental processor', () => {
 
     await bus.publish({ id: 1, domain: 'product', name: 'Node', description: 'Runtime', tags: ['node'] });
     await bus.publish({ id: 1, domain: 'product', name: 'Node.js', description: 'Runtime', tags: ['node'] });
-  await bus.publish({ id: 1, domain: 'product', name: 'Node.js', description: 'Runtime', tags: ['node'], deleted: true });
+    await bus.publish({ id: 1, domain: 'product', name: 'Node.js', description: 'Runtime', tags: ['node'], deleted: true });
 
     expect(writer.snapshot()).toHaveLength(0);
   });
@@ -109,8 +109,8 @@ describe('CatalogEventBus + incremental processor', () => {
 describe('ReindexJob', () => {
   it('runs, pauses, and resumes a reindex', async () => {
     const snapshot = new CatalogSnapshotStore();
-  snapshot.apply({ id: 1, domain: 'category', name: 'Node', description: 'Runtime', tags: ['node'] });
-  snapshot.apply({ id: 2, domain: 'editorial', name: 'React', description: 'UI', tags: ['react'] });
+    snapshot.apply({ id: 1, domain: 'category', name: 'Node', description: 'Runtime', tags: ['node'] });
+    snapshot.apply({ id: 2, domain: 'editorial', name: 'React', description: 'UI', tags: ['react'] });
 
     class ControlledWriter extends InMemoryIndexWriter {
       private pendingResolvers: Array<() => void> = [];
@@ -139,15 +139,15 @@ describe('ReindexJob', () => {
     const startPromise = job.start(1);
     await flush();
     job.pause();
-  writer.release();
-  await startPromise;
+    writer.release();
+    await startPromise;
 
     expect(job.status().state).toBe('paused');
 
-  const resumePromise = job.resume();
-  await flush();
-  writer.release();
-  await resumePromise;
+    const resumePromise = job.resume();
+    await flush();
+    writer.release();
+    await resumePromise;
 
     expect(job.status().state).toBe('completed');
     expect(writer.snapshot()).toHaveLength(2);

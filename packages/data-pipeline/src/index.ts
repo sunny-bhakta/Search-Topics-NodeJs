@@ -1,20 +1,15 @@
-import { Catalog, sampleCatalogs } from '@search/core-engine';
+import type { Catalog } from '@search/core-engine';
+import { sampleCatalogs } from '@search/seed-data';
+
 
 export type Domain = 'product' | 'category' | 'editorial';
 
-/**
- * Locale-specific overrides that can be attached to any event. These let merchandisers
- * inject localized copy and tags without duplicating the entire payload per locale.
- */
 export type LocaleOverrides = {
   name?: string;
   description?: string;
   tags?: string[];
 };
 
-/**
- * Shared shape for every ingest event flowing through the pipeline.
- */
 type BaseContentEvent = {
   id: number;
   domain: Domain;
@@ -54,10 +49,6 @@ export type EditorialEvent = BaseContentEvent & {
 
 export type CatalogEvent = ProductEvent | CategoryEvent | EditorialEvent;
 
-/**
- * Small abstraction around the current state of the catalog. Implementations can range from the
- * in-memory helper below to production-grade datastores.
- */
 export interface CatalogRepository {
   list(): Promise<Catalog[]>;
   upsert(event: CatalogEvent): Promise<void>;
@@ -65,9 +56,6 @@ export interface CatalogRepository {
 }
 
 /**
- * Development-friendly repository that keeps all catalog items in memory. This is what the CLI and
- * sample HTTP service use when you bootstrap the workspace locally.
- *
  * Implements: Incremental indexing pipeline (listens to catalog events and updates in-memory state)
  */
 export class InMemoryCatalogRepository implements CatalogRepository {
@@ -98,9 +86,6 @@ export class InMemoryCatalogRepository implements CatalogRepository {
 export const bootstrapRepository = (): CatalogRepository => new InMemoryCatalogRepository();
 
 /**
- * Applies a batch of catalog events to the repository (and optional snapshot store). Think of it
- * as the write-model counterpart to the read-models served to search clients.
- *
  * Implements: Incremental indexing pipeline (applies events to repo and snapshot store)
  */
 export const applyCatalogEvents = async (
@@ -120,9 +105,6 @@ export const applyCatalogEvents = async (
 };
 
 /**
- * Fully denormalized document ready to be indexed. These are derived from catalog events so the
- * search layer can support multi-locale/multi-currency queries without additional joins.
- *
  * Implements: Multi-locale and multi-currency awareness
  */
 export type IndexDocument = {
